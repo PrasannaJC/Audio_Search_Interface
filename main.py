@@ -9,6 +9,7 @@ import pyttsx3
 import speech_recognition as sr
 #import pyttsx3
 from playsound import playsound
+from pywhatkit import search
 
 r = sr.Recognizer()
 
@@ -29,6 +30,7 @@ while(1):
 
             print("Did you say " + inputText)
             SpeakText(inputText)
+            search(inputText)
     except sr.RequestError as e:
         print("Couldn't recognize results; {0}".format(e))
     except sr.UnknownValueError:
