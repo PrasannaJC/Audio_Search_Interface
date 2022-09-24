@@ -28,6 +28,7 @@ while(1):
             inputText = r.recognize_google(audio1)
             inputText = inputText.lower()
 
+
             print("Did you say " + inputText)
             SpeakText(inputText)
             search(inputText)
