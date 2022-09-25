@@ -4,21 +4,24 @@ Prasanna Chandrasekar
 
 
 '''
-import gtts
 import pyttsx3
 import speech_recognition as sr
-#import pyttsx3
-from playsound import playsound
 from pywhatkit import search
 
+'import gtts'
+'#import pyttsx3'
+'#from playsound import playsound'
+
 r = sr.Recognizer()
+
 
 def SpeakText(command):
     engine = pyttsx3.init()
     engine.say(command)
     engine.runAndWait()
 
-while(1):
+
+while (1):
     try:
         with sr.Microphone() as source1:
 
@@ -28,7 +31,6 @@ while(1):
             inputText = r.recognize_google(audio1)
             inputText = inputText.lower()
 
-
             print("Did you say " + inputText)
             SpeakText(inputText)
             search(inputText)
@@ -36,7 +38,6 @@ while(1):
         print("Couldn't recognize results; {0}".format(e))
     except sr.UnknownValueError:
         print("Unknown error occurred")
-
 
 '''
 tts = gtts.gTTS("what's up lads!")
