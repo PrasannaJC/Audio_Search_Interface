@@ -32,6 +32,7 @@ while 1:
                 raise SystemExit()
             print("Respond with either 'YES' or 'NO")
 
+
             audio2 = r.listen(source1)
             inputVerify = r.recognize_google(audio2)
             inputVerify = inputVerify.lower()
