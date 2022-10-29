@@ -1,16 +1,10 @@
 '''
 This code is jointly developed by:
 Prasanna Chandrasekar
-
-
 '''
 import pyttsx3
 import speech_recognition as sr
 from pywhatkit import search
-
-'import gtts'
-'#import pyttsx3'
-'#from playsound import playsound'
 
 r = sr.Recognizer()
 
@@ -21,7 +15,7 @@ def SpeakText(command):
     engine.runAndWait()
 
 
-while (1):
+while 1:
     try:
         with sr.Microphone() as source1:
 
@@ -31,17 +25,22 @@ while (1):
             inputText = r.recognize_google(audio1)
             inputText = inputText.lower()
 
-            print("Did you say " + inputText)
-            SpeakText(inputText)
-            search(inputText)
+            print("Did you say " + inputText)  # This line is here just so you can see what has been interpreted.
+
+            if str(inputText) == "end program":
+                raise SystemExit()
+            print("Respond with either 'YES' or 'NO")
+
+
+            audio2 = r.listen(source1)
+            inputVerify = r.recognize_google(audio2)
+            inputVerify = inputVerify.lower()
+            print(inputVerify)
+            if str(inputVerify) == "yes":
+                SpeakText(inputText)
+                search(inputText)
+
     except sr.RequestError as e:
         print("Couldn't recognize results; {0}".format(e))
     except sr.UnknownValueError:
         print("Unknown error occurred")
-
-'''
-tts = gtts.gTTS("what's up lads!")
-not needed
-tts.save("hello2.mp3")
-playsound("hello2.mp3")
-'''
