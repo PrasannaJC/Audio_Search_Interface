@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("webpagetest.html") #Insert HTML File Here # (Directory must be pyfileLocation>template>webpagetest.html
+    return render_template("webpagetest.html") #Insert HTML File Here # (Directory must be pyfileLocation>templates>webpagetest.html
 
 if __name__ == "__main__":
     app.run()
