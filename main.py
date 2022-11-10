@@ -1,6 +1,7 @@
 '''
 This code is jointly developed by:
 Prasanna Chandrasekar
+
 '''
 import pyttsx3
 import speech_recognition as sr
@@ -44,3 +45,4 @@ while 1:
         print("Couldn't recognize results; {0}".format(e))
     except sr.UnknownValueError:
         print("Unknown error occurred")
+
