@@ -25,8 +25,8 @@ while 1:
             awakeText = r.recognize_google(audio1)
             awakeText = awakeText.lower()
 
-            # "hey assistant check" - user wants to search something
-            if str(awakeText) == "hey assistant":
+            # "assistant" check - user wants to search something
+            if str(awakeText) == "assistant":
                 print("Please say your command...")
 
                 searchText = r.listen(source1)
