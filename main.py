@@ -6,6 +6,7 @@ Prasanna Chandrasekar
 import pyttsx3
 import speech_recognition as sr
 from pywhatkit import search
+import PySimpleGUI as sg
 
 r = sr.Recognizer()
 
@@ -15,10 +16,13 @@ def SpeakText(command):
     engine.say(command)
     engine.runAndWait()
 
+#create gui window
+#sg.Window(title="Audio Interface", layout=[[]], margins=(500, 300)).read()
 
 while 1:
     try:
         with sr.Microphone() as source1:
+
 
             r.adjust_for_ambient_noise(source1, duration=0.5)
             audio1 = r.listen(source1)
@@ -54,5 +58,5 @@ while 1:
     except sr.UnknownValueError:
         # if the speech recognizer can't recognize something as speech, it gets caught here
         # print("Unknown error occurred")
-        print("Sorry I didn't get that. Please say \"Hey Assistant\" to search.")
+        print("Sorry I didn't get that. Please say \"Assistant\" to search.")
 
