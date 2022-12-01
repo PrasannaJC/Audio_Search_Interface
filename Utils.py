@@ -59,11 +59,13 @@ def validationThread(microphone, r, searchText):
                 if str(inputVerify) == "yes":
                     SpeakText(searchText)
                     search(searchText)
+                    sleep(1)
                     return success
-                elif str(inputVerify) == "no":
+                    break
+                if str(inputVerify) == "no":
+                    #return fail
+                    sleep(1)
                     return fail
-                else:
-                    # might not need this
                     break
         except sr.UnknownValueError:
             # if the speech recognizer can't recognize something as speech, it gets caught here

@@ -27,7 +27,10 @@ col2=[
     [sg.Text("Please say \"Assistant\" to begin.", font=('Helvetica', 40), justification='center', key='titleText_3', background_color='green')],
     [sg.Text("", font=('Helvetica', 40), justification='center', key='titleText_4', background_color='green')]
 ]
-col3=[[sg.Text("", font=('Helvetica', 40), justification='center', background_color='blue', size=(4,12))]]
+col3=[
+    [sg.Image(size=(10,10), key='image_1')],
+    [sg.Text("", font=('Helvetica', 40), justification='center', key='rightColText', background_color='blue', size=(4,12))],
+]
 
 layout = [[
     sg.Column(col1, element_justification='c'),
@@ -60,55 +63,6 @@ class ThreadWithReturnValue(Thread):
         sleep(1)
         self.value = self._target(*self._args)
 
-# #speaking text function
-# def SpeakText(command):
-#     engine = pyttsx3.init()
-#     engine.say(command)
-#     engine.runAndWait()
-
-# listening thread
-# def listenThread():
-#     while True:
-#         try:
-#             with sr.Microphone() as source1:
-#                 r.adjust_for_ambient_noise(source1, duration=0.5)
-#                 audio1 = r.listen(source1)
-#                 awakeText = r.recognize_google(audio1)
-#                 awakeText = awakeText.lower()
-#
-#                 print(awakeText)
-#                 # "assistant" check - user wants to search something
-#                 if str(awakeText) == "assistant":
-#                     return(awakeText)
-#                     print("Please say your command...")
-#                     searchText = r.listen(source1)
-#
-#                     inputText = r.recognize_google(searchText)
-#                     inputText = inputText.lower()
-#
-#                     print("Did you say: \"" + inputText + "\"")
-#
-#                     if str(inputText) == "end program":
-#                         # raise SystemExit()
-#                         return "EXIT"
-#                     print("Respond with either 'YES' or 'NO")
-#
-#                     audio2 = r.listen(source1)
-#                     inputVerify = r.recognize_google(audio2)
-#                     inputVerify = inputVerify.lower()
-#                     print(inputVerify)
-#                     if str(inputVerify) == "yes":
-#                         SpeakText(inputText)
-#                         search(inputText)
-#                         #return inputText
-#         except sr.RequestError as e:
-#             print("Couldn't recognize results; {0}".format(e))
-#         except sr.UnknownValueError:
-#             # if the speech recognizer can't recognize something as speech, it gets caught here
-#             # print("Unknown error occurred")
-#             print("Sorry I didn't get that. Please say \"Assistant\" to search.")
-
-
 # event loop
 listenThreadStarted = False
 while True:
@@ -124,21 +78,41 @@ while True:
     if thr.value == 'assistant':
         window['titleText_2'].update('Assistant Ready')
         window['titleText_3'].update('Please say what you would\n like to search for')
+        window['rightColText'].update('Say "End Program" to exit')
+        winow['image_1'].update('')
         # spin off listen for search thread
         thr = ThreadWithReturnValue(target=listenForSearchThread, args=(mic, r))
         thr.start()
         #thr.join()
 
-    if thr.value != None:
+    if thr.value != None and thr.value != "yes" and thr.value != "no" and thr.value != "end program":
         window['titleText_2'].update('I heard ...')
         window['titleText_3'].update(thr.value)
         window['titleText_4'].update("Say \"Yes\" to search, or \"No\" to try again.")
         #spin off confirmation thread
         thr = ThreadWithReturnValue(target=validationThread, args=(mic, r, thr.value))
-
         thr.start()
-        #print("RETURN FROM VALIDATION THREAD:" + str(thr.value))
+    elif thr.value == "end program":
+        thr.join()
+        break
 
+    #print("RETURN FROM VALIDATION THREAD:" + str(thr.value))
+
+    if thr.value == "no":
+        window['titleText_2'].update('Assistant Ready')
+        window['titleText_3'].update('Please say what you would\n like to search for')
+        window['titleText_4'].update("")
+        # spin off listen for search thread
+        thr = ThreadWithReturnValue(target=listenForSearchThread, args=(mic, r))
+        thr.start()
+
+    if thr.value == "yes":
+        window['titleText_2'].update("")
+        window['titleText_3'].update("Please say \"Assistant\" to begin.")
+        window['titleText_4'].update("")
+        #spin off initial awake thread
+        thr = ThreadWithReturnValue(target=awakeThread, args=(mic, r))
+        thr.start()
 
 
 
