@@ -49,6 +49,7 @@ def listenForSearchThread(microphone, r):
 def validationThread(microphone, r, searchText):
     success = "yes"
     fail = "no"
+    end = "EXIT"
     while True:
         try:
             with microphone as source1:
@@ -67,6 +68,10 @@ def validationThread(microphone, r, searchText):
                     sleep(1)
                     return fail
                     break
+                if str(inputVerify) == "end program":
+                    sleep(1)
+                    return end
+
         except sr.UnknownValueError:
             # if the speech recognizer can't recognize something as speech, it gets caught here
             print("Sorry I didn't get that. Please say \"Assistant\" to search. - validationThread")
